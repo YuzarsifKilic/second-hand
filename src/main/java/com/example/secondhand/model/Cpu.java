@@ -2,24 +2,22 @@ package com.example.secondhand.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Table(name = "orders")
-public class Order {
+public class Cpu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @OneToOne
-    private Product product;
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    private int id;
+    private String cpuBrand;
+    private String cpuBrandModel;
+    @OneToMany(mappedBy = "cpu")
+    private Set<Pc> pc;
 }

@@ -46,7 +46,8 @@ public class SecurityConfig {
                             "/api/v1/customer/create",
                             "/api/v1/seller/create",
                             "/api/v1/product/**",
-                            "/api/v1/photo/**"
+                            "/api/v1/photo/**",
+                            "/api/v1/pc/**"
                             ).permitAll();
                     auth.requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN");
                     auth.requestMatchers("/api/v1/seller/**").hasAuthority("SELLER");

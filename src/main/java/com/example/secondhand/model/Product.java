@@ -11,6 +11,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Product {
 
     @Id
@@ -28,4 +29,14 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private Seller seller;
+
+    public Product(String shortDetails, float price, boolean isSold, String details, ProductBrand productBrand, Set<ProductPhoto> productPhotos, Seller seller) {
+        this.shortDetails = shortDetails;
+        this.price = price;
+        this.isSold = isSold;
+        this.details = details;
+        this.productBrand = productBrand;
+        this.productPhotos = productPhotos;
+        this.seller = seller;
+    }
 }
