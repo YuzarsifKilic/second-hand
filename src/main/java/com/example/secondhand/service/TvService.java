@@ -44,23 +44,20 @@ public class TvService {
         if (!filter.getScreenType().isEmpty()) {
             tvList = screenTypeFilter(tvList, filter.getScreenType());
         }
-        return tvList
-                .stream()
+        return tvList.stream()
                 .map(TvDto::convert)
                 .collect(Collectors.toList());
     }
 
     private List<Tv> brandFilter(List<Tv> tvList, String brand) {
         ProductBrand productBrand = productBrandService.getProduct(brand);
-        return tvList
-                .stream()
+        return tvList.stream()
                 .filter(t -> t.getProductBrand().getBrandName().equals(productBrand.getBrandName()))
                 .collect(Collectors.toList());
     }
 
     private List<Tv> screenTypeFilter(List<Tv> tvList, String screenType) {
-        return tvList
-                .stream()
+        return tvList.stream()
                 .filter(t -> t.getScreenType().equals(screenType))
                 .collect(Collectors.toList());
     }

@@ -56,29 +56,25 @@ public class PcService {
 
     private List<Pc> brandFilter(List<Pc> pcList, String brand) {
         ProductBrand productBrand = productBrandService.getProduct(brand);
-        return pcList
-                .stream()
+        return pcList.stream()
                 .filter(p -> p.getProductBrand().getBrandName().equals(productBrand.getBrandName()))
                 .collect(Collectors.toList());
     }
 
     private List<Pc> cpuFilter(List<Pc> pcList, int id) {
-        return pcList
-                .stream()
+        return pcList.stream()
                 .filter(p -> p.getCpu().getId() == id)
                 .collect(Collectors.toList());
     }
 
     private List<Pc> gpuFilter(List<Pc> pcList, int id) {
-        return pcList
-                .stream()
+        return pcList.stream()
                 .filter(p -> p.getGpu().getId() == id)
                 .collect(Collectors.toList());
     }
 
     private List<Pc>  ramSizeFilter(List<Pc> pcList, int ramSize) {
-        return pcList
-                .stream()
+        return pcList.stream()
                 .filter(p -> p.getRamSize() == ramSize)
                 .collect(Collectors.toList());
     }
