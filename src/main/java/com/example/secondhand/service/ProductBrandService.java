@@ -2,6 +2,7 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.ProductBrandDto;
 import com.example.secondhand.exception.ProductBrandNotFoundException;
+import com.example.secondhand.model.ProductBrand;
 import com.example.secondhand.repository.ProductBrandRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,12 @@ public class ProductBrandService {
         return ProductBrandDto.convert(
                 repository.findById(id)
                         .orElseThrow(
-                                () -> new ProductBrandNotFoundException("Brand not find by id : " + id)));
+                                () -> new ProductBrandNotFoundException("Brand didnt find by id : " + id)));
+    }
+
+    protected ProductBrand getProduct(String brandName) {
+        return repository.getProductBrandByBrandName(brandName)
+                .orElseThrow(
+                        () -> new ProductBrandNotFoundException("Brand didnt find by name : " + brandName));
     }
 }
