@@ -1,7 +1,7 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.PcDto;
-import com.example.secondhand.dto.PcFilter;
+import com.example.secondhand.dto.model.PcDto;
+import com.example.secondhand.dto.filter.PcFilter;
 import com.example.secondhand.exception.PcNotFoundException;
 import com.example.secondhand.model.Pc;
 import com.example.secondhand.model.ProductBrand;

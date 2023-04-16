@@ -1,7 +1,7 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.LoginRequest;
-import com.example.secondhand.dto.TokenResponseDto;
+import com.example.secondhand.dto.request.LoginRequest;
+import com.example.secondhand.dto.model.TokenResponseDto;
 import com.example.secondhand.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

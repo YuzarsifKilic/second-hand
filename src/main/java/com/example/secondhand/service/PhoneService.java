@@ -1,7 +1,7 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.PhoneDto;
-import com.example.secondhand.dto.PhoneFilter;
+import com.example.secondhand.dto.model.PhoneDto;
+import com.example.secondhand.dto.filter.PhoneFilter;
 import com.example.secondhand.exception.PhoneNotFoundException;
 import com.example.secondhand.model.Phone;
 import com.example.secondhand.model.ProductBrand;

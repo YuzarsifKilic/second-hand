@@ -1,7 +1,7 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.PhoneDto;
-import com.example.secondhand.dto.PhoneFilter;
+import com.example.secondhand.dto.model.PhoneDto;
+import com.example.secondhand.dto.filter.PhoneFilter;
 import com.example.secondhand.service.PhoneService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

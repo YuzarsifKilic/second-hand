@@ -1,6 +1,6 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.UserDto;
+import com.example.secondhand.dto.model.UserDto;
 import com.example.secondhand.exception.GenericException;
 import com.example.secondhand.model.User;
 import com.example.secondhand.repository.UserRepository;

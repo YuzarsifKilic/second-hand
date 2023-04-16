@@ -1,9 +1,6 @@
-package com.example.secondhand.dto;
+package com.example.secondhand.dto.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Builder
 public record TokenResponseDto(String accessToken,

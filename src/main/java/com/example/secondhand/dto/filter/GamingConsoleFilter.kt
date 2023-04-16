@@ -1,4 +1,4 @@
-package com.example.secondhand.dto
+package com.example.secondhand.dto.filter
 
 data class GamingConsoleFilter @JvmOverloads constructor(
 

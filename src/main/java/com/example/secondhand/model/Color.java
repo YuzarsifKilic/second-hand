@@ -21,4 +21,6 @@ public class Color {
     private Set<Phone> phones;
     @OneToMany(mappedBy = "color")
     private Set<GamingConsole> gamingConsoles;
+    @OneToMany(mappedBy = "color")
+    private Set<ComputerAccessories> computerAccessories;
 }

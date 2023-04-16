@@ -1,7 +1,7 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.CreateSellerRequest;
-import com.example.secondhand.dto.SellerDto;
+import com.example.secondhand.dto.request.CreateSellerRequest;
+import com.example.secondhand.dto.model.SellerDto;
 import com.example.secondhand.exception.SellerNotFoundException;
 import com.example.secondhand.model.Role;
 import com.example.secondhand.model.Seller;

@@ -1,6 +1,6 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.CpuDto;
+import com.example.secondhand.dto.model.CpuDto;
 import com.example.secondhand.service.CpuService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

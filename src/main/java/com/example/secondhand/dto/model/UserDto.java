@@ -1,4 +1,4 @@
-package com.example.secondhand.dto;
+package com.example.secondhand.dto.model;
 
 import com.example.secondhand.model.Role;
 import com.example.secondhand.model.User;

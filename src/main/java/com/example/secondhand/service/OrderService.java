@@ -1,7 +1,7 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.CreateOrderRequest;
-import com.example.secondhand.dto.OrderDto;
+import com.example.secondhand.dto.request.CreateOrderRequest;
+import com.example.secondhand.dto.model.OrderDto;
 import com.example.secondhand.exception.OrderNotFoundException;
 import com.example.secondhand.model.Customer;
 import com.example.secondhand.model.Order;

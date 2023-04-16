@@ -1,8 +1,6 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.AdminDto;
-import com.example.secondhand.dto.CreateAdminRequest;
-import com.example.secondhand.model.Admin;
+import com.example.secondhand.dto.model.AdminDto;
 import com.example.secondhand.service.AdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

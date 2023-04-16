@@ -1,9 +1,8 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.TvDto;
-import com.example.secondhand.dto.TvFilter;
+import com.example.secondhand.dto.model.TvDto;
+import com.example.secondhand.dto.filter.TvFilter;
 import com.example.secondhand.exception.TvNotFoundException;
-import com.example.secondhand.model.Pc;
 import com.example.secondhand.model.ProductBrand;
 import com.example.secondhand.model.Tv;
 import com.example.secondhand.repository.TvRepository;

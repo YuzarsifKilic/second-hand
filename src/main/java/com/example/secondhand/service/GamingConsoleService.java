@@ -1,10 +1,9 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.GamingConsoleDto;
-import com.example.secondhand.dto.GamingConsoleFilter;
+import com.example.secondhand.dto.model.GamingConsoleDto;
+import com.example.secondhand.dto.filter.GamingConsoleFilter;
 import com.example.secondhand.exception.GamingConsoleNotFoundException;
 import com.example.secondhand.model.GamingConsole;
-import com.example.secondhand.model.Phone;
 import com.example.secondhand.model.ProductBrand;
 import com.example.secondhand.repository.GamingConsoleRepository;
 import org.springframework.stereotype.Service;

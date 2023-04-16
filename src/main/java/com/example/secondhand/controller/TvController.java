@@ -1,7 +1,7 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.TvDto;
-import com.example.secondhand.dto.TvFilter;
+import com.example.secondhand.dto.model.TvDto;
+import com.example.secondhand.dto.filter.TvFilter;
 import com.example.secondhand.service.TvService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,7 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.LoginRequest;
-import com.example.secondhand.dto.TokenResponseDto;
+import com.example.secondhand.dto.request.LoginRequest;
+import com.example.secondhand.dto.model.TokenResponseDto;
 import com.example.secondhand.exception.GenericException;
 import com.example.secondhand.security.TokenGenerator;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.ProductDto;
+import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.exception.ProductNotFoundException;
 import com.example.secondhand.model.Product;
 import com.example.secondhand.repository.ProductRepository;

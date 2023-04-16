@@ -1,6 +1,6 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.ColorDto;
+import com.example.secondhand.dto.model.ColorDto;
 import com.example.secondhand.repository.ColorRepository;
 import org.springframework.stereotype.Service;
 

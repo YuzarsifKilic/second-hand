@@ -1,6 +1,6 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.ColorDto;
+import com.example.secondhand.dto.model.ColorDto;
 import com.example.secondhand.service.ColorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

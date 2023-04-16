@@ -1,6 +1,6 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.CpuDto;
+import com.example.secondhand.dto.model.CpuDto;
 import com.example.secondhand.repository.CpuRepository;
 import org.springframework.stereotype.Service;
 

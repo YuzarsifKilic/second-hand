@@ -1,7 +1,7 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.CreateOrderRequest;
-import com.example.secondhand.dto.OrderDto;
+import com.example.secondhand.dto.request.CreateOrderRequest;
+import com.example.secondhand.dto.model.OrderDto;
 import com.example.secondhand.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

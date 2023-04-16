@@ -1,6 +1,6 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.ProductDto;
+import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

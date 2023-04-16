@@ -1,6 +1,6 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.GpuDto;
+import com.example.secondhand.dto.model.GpuDto;
 import com.example.secondhand.repository.GpuRepository;
 import org.springframework.stereotype.Service;
 

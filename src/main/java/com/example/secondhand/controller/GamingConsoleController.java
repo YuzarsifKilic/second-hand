@@ -1,7 +1,7 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.GamingConsoleDto;
-import com.example.secondhand.dto.GamingConsoleFilter;
+import com.example.secondhand.dto.model.GamingConsoleDto;
+import com.example.secondhand.dto.filter.GamingConsoleFilter;
 import com.example.secondhand.service.GamingConsoleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

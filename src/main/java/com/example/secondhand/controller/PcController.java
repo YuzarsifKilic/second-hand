@@ -1,8 +1,7 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.PcDto;
-import com.example.secondhand.dto.PcFilter;
-import com.example.secondhand.dto.PcRequest;
+import com.example.secondhand.dto.model.PcDto;
+import com.example.secondhand.dto.filter.PcFilter;
 import com.example.secondhand.service.PcService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

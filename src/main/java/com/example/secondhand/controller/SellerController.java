@@ -1,7 +1,7 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.CreateSellerRequest;
-import com.example.secondhand.dto.SellerDto;
+import com.example.secondhand.dto.request.CreateSellerRequest;
+import com.example.secondhand.dto.model.SellerDto;
 import com.example.secondhand.service.SellerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

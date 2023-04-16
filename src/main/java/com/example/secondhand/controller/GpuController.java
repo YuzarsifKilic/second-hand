@@ -1,6 +1,6 @@
 package com.example.secondhand.controller;
 
-import com.example.secondhand.dto.GpuDto;
+import com.example.secondhand.dto.model.GpuDto;
 import com.example.secondhand.service.GpuService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

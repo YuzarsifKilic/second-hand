@@ -1,9 +1,7 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.AdminDto;
-import com.example.secondhand.dto.CreateAdminRequest;
+import com.example.secondhand.dto.model.AdminDto;
 import com.example.secondhand.exception.AdminNotFoundException;
-import com.example.secondhand.model.Admin;
 import com.example.secondhand.repository.AdminRepository;
 import org.springframework.stereotype.Service;
 
