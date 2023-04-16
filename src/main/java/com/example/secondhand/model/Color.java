@@ -19,4 +19,6 @@ public class Color {
     private String colorName;
     @OneToMany(mappedBy = "color")
     private Set<Phone> phones;
+    @OneToMany(mappedBy = "color")
+    private Set<GamingConsole> gamingConsoles;
 }

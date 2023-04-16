@@ -38,12 +38,11 @@ public class TvService {
 
     public List<TvDto> filterTv(TvFilter filter) {
         List<Tv> tvList = repository.findAll();
-        if (!filter.getBrandName().isEmpty()) {
+        if (!filter.getBrandName().isEmpty())
             tvList = brandFilter(tvList, filter.getBrandName());
-        }
-        if (!filter.getScreenType().isEmpty()) {
+        if (!filter.getScreenType().isEmpty())
             tvList = screenTypeFilter(tvList, filter.getScreenType());
-        }
+
         return tvList.stream()
                 .map(TvDto::convert)
                 .collect(Collectors.toList());

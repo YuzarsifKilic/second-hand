@@ -37,21 +37,17 @@ public class PhoneService {
 
     public List<PhoneDto> phoneFilter(PhoneFilter filter) {
         List<Phone> phoneList = repository.findAll();
-        if (!filter.getBrandName().isEmpty()) {
+        if (!filter.getBrandName().isEmpty())
             phoneList = brandFilter(phoneList, filter.getBrandName());
-        }
-        if (filter.getColorId() != null) {
+        if (filter.getColorId() != null)
             phoneList = colorFilter(phoneList, filter.getColorId());
-        }
-        if (!filter.getOsName().isEmpty()) {
+        if (!filter.getOsName().isEmpty())
             phoneList = osFilter(phoneList, filter.getOsName());
-        }
-        if (filter.getCameraMin() != null && filter.getCameraMax() != null) {
+        if (filter.getCameraMin() != null && filter.getCameraMax() != null)
             phoneList = cameraFilter(phoneList, filter.getCameraMin(), filter.getCameraMax());
-        }
-        if (filter.getFrontCameraMin() != null && filter.getFrontCameraMax() != null) {
+        if (filter.getFrontCameraMin() != null && filter.getFrontCameraMax() != null)
             phoneList = frontCameraFilter(phoneList, filter.getFrontCameraMin(), filter.getFrontCameraMax());
-        }
+
         return phoneList.stream()
                 .map(PhoneDto::convert)
                 .collect(Collectors.toList());

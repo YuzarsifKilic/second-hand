@@ -37,18 +37,15 @@ public class PcService {
 
     public List<PcDto> filterPc(PcFilter pcFilter) {
         List<Pc> pcList = repository.findAll();
-        if (!pcFilter.getBrandName().isEmpty()) {
+        if (!pcFilter.getBrandName().isEmpty())
             pcList = brandFilter(pcList, pcFilter.getBrandName());
-        }
-        if (pcFilter.getCpuId() != null) {
+        if (pcFilter.getCpuId() != null)
             pcList = cpuFilter(pcList, pcFilter.getCpuId());
-        }
-        if (pcFilter.getGpuId() != null) {
+        if (pcFilter.getGpuId() != null)
             pcList = gpuFilter(pcList, pcFilter.getGpuId());
-        }
-        if (pcFilter.getRamSize() != null) {
+        if (pcFilter.getRamSize() != null)
             pcList = ramSizeFilter(pcList, pcFilter.getRamSize());
-        }
+
         return pcList.stream()
                 .map(PcDto::convert)
                 .collect(Collectors.toList());
