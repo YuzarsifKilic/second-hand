@@ -26,11 +26,14 @@ public class CustomerService {
 
     @Transactional
     public void createCustomer(CreateCustomerRequest request) {
-        Customer customer = new Customer(request.email(),
-                passwordEncoder.encode(request.password()),
-                Role.CUSTOMER,
-                request.firstName(),
-                request.lastName());
+        final String password = passwordEncoder.encode(request.password());
+        Customer customer = Customer.builder()
+                .email(request.email())
+                .password(password)
+                .role(Role.CUSTOMER)
+                .firstName(request.firstName())
+                .lastName(request.lastName())
+                .build();
         repository.save(customer);
     }
 

@@ -6,9 +6,11 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Data
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ComputerAccessories extends Product {

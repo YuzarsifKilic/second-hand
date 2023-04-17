@@ -26,12 +26,15 @@ public class SellerService {
 
     @Transactional
     public void createSeller(CreateSellerRequest request) {
-        Seller seller = new Seller(request.email(),
-                passwordEncoder.encode(request.password()),
-                Role.SELLER,
-                request.username(),
-                request.address(),
-                request.phoneNumber());
+        final String password = passwordEncoder.encode(request.password());
+        Seller seller = Seller.builder()
+                .email(request.email())
+                .password(password)
+                .role(Role.SELLER)
+                .username(request.username())
+                .address(request.address())
+                .phoneNumber(request.phoneNumber())
+                .build();
 
         repository.save(seller);
     }
