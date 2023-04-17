@@ -2,6 +2,7 @@ package com.example.secondhand.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Product {
 
@@ -30,13 +32,12 @@ public class Product {
     @JoinColumn(name = "seller_id")
     private Seller seller;
 
-    public Product(String shortDetails, float price, boolean isSold, String details, ProductBrand productBrand, Set<ProductPhoto> productPhotos, Seller seller) {
+    public Product(String shortDetails, float price, boolean isSold, String details, ProductBrand productBrand, Seller seller) {
         this.shortDetails = shortDetails;
         this.price = price;
         this.isSold = isSold;
         this.details = details;
         this.productBrand = productBrand;
-        this.productPhotos = productPhotos;
         this.seller = seller;
     }
 }

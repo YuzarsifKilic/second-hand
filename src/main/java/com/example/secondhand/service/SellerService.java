@@ -48,4 +48,10 @@ public class SellerService {
                 .orElseThrow(
                         () -> new SellerNotFoundException("Seller didnt find by id : " + id)));
     }
+
+    public Seller findSeller(String id) {
+        return repository.findById(id)
+                .orElseThrow(
+                        () -> new SellerNotFoundException("Seller didnt find by id : " + id));
+    }
 }

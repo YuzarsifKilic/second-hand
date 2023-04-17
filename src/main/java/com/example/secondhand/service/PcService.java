@@ -2,10 +2,11 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.PcDto;
 import com.example.secondhand.dto.filter.PcFilter;
+import com.example.secondhand.dto.request.CreatePcRequest;
 import com.example.secondhand.exception.PcNotFoundException;
-import com.example.secondhand.model.Pc;
-import com.example.secondhand.model.ProductBrand;
+import com.example.secondhand.model.*;
 import com.example.secondhand.repository.PcRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +17,20 @@ public class PcService {
 
     private final PcRepository repository;
     private final ProductBrandService productBrandService;
+    private final SellerService sellerService;
+    private final CpuService cpuService;
+    private final GpuService gpuService;
 
-    public PcService(PcRepository repository, ProductBrandService productBrandService) {
+    public PcService(PcRepository repository,
+                     ProductBrandService productBrandService,
+                     SellerService sellerService,
+                     CpuService cpuService,
+                     GpuService gpuService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.sellerService = sellerService;
+        this.cpuService = cpuService;
+        this.gpuService = gpuService;
     }
 
     public PcDto findPcById(Long id) {
@@ -33,6 +44,33 @@ public class PcService {
                 .stream()
                 .map(PcDto::convert)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void savePc(CreatePcRequest request) {
+        ProductBrand productBrand = productBrandService.findProduct(request.productBrandId());
+        Seller seller = sellerService.findSeller(request.sellerId());
+        Cpu cpu = cpuService.findCpuById(request.cpuId());
+        Gpu gpu = gpuService.findGpuById(request.gpuId());
+        Pc pc = new Pc(
+                request.shortDetails(),
+                request.price(),
+                false,
+                request.details(),
+                productBrand,
+                seller,
+                request.brandModel(),
+                cpu,
+                request.cpuSpeed(),
+                gpu,
+                request.gpuSize(),
+                request.ramSize(),
+                request.ramSpeed(),
+                request.screenSize(),
+                request.modelYear(),
+                request.resolution());
+
+        repository.save(pc);
     }
 
     public List<PcDto> filterPc(PcFilter pcFilter) {

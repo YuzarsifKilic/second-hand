@@ -1,6 +1,8 @@
 package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.CpuDto;
+import com.example.secondhand.exception.CpuNotFoundException;
+import com.example.secondhand.model.Cpu;
 import com.example.secondhand.repository.CpuRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +23,11 @@ public class CpuService {
                 .stream()
                 .map(CpuDto::convert)
                 .collect(Collectors.toList());
+    }
+
+    public Cpu findCpuById(int id) {
+        return repository.findById(id)
+                .orElseThrow(
+                        () -> new CpuNotFoundException("Cpu didnt find by id : " + id));
     }
 }

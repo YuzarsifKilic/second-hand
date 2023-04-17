@@ -43,4 +43,8 @@ public class UserService {
                         .message("User not found by given id!")
                         .build());
     }
+
+    public void deleterUser(String id) {
+        repository.deleteById(id);
+    }
 }

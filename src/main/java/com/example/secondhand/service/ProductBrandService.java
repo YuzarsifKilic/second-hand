@@ -21,6 +21,12 @@ public class ProductBrandService {
                         .orElseThrow(
                                 () -> new ProductBrandNotFoundException("Brand didnt find by id : " + id)));
     }
+    public ProductBrand findProduct(int id) {
+        return
+                repository.findById(id)
+                        .orElseThrow(
+                                () -> new ProductBrandNotFoundException("Brand didnt find by id : " + id));
+    }
 
     protected ProductBrand getProduct(String brandName) {
         return repository.getProductBrandByBrandName(brandName)
