@@ -52,23 +52,25 @@ public class PcService {
         Seller seller = sellerService.findSeller(request.sellerId());
         Cpu cpu = cpuService.findCpuById(request.cpuId());
         Gpu gpu = gpuService.findGpuById(request.gpuId());
-        Pc pc = new Pc(
-                request.shortDetails(),
-                request.price(),
-                false,
-                request.details(),
-                productBrand,
-                seller,
-                request.brandModel(),
-                cpu,
-                request.cpuSpeed(),
-                gpu,
-                request.gpuSize(),
-                request.ramSize(),
-                request.ramSpeed(),
-                request.screenSize(),
-                request.modelYear(),
-                request.resolution());
+
+        Pc pc = Pc.builder()
+                .shortDetails(request.shortDetails())
+                .price(request.price())
+                .isSold(false)
+                .details(request.details())
+                .productBrand(productBrand)
+                .seller(seller)
+                .brandModel(request.brandModel())
+                .cpu(cpu)
+                .cpuSpeed(request.cpuSpeed())
+                .gpu(gpu)
+                .gpuSize(request.gpuSize())
+                .ramSize(request.ramSize())
+                .ramSpeed(request.ramSpeed())
+                .screenSize(request.screenSize())
+                .modelYear(request.modelYear())
+                .resolution(request.resolution())
+                .build();
 
         repository.save(pc);
     }
