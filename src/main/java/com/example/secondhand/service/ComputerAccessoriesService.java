@@ -2,10 +2,12 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.filter.ComputerAccessoriesFilter;
 import com.example.secondhand.dto.model.ComputerAccessoriesDto;
+import com.example.secondhand.dto.request.CreateComputerAccessoriesRequest;
 import com.example.secondhand.exception.ComputerAccessoriesNotFoundException;
+import com.example.secondhand.model.Color;
 import com.example.secondhand.model.ComputerAccessories;
-import com.example.secondhand.model.GamingConsole;
 import com.example.secondhand.model.ProductBrand;
+import com.example.secondhand.model.Seller;
 import com.example.secondhand.repository.ComputerAccessoriesRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,17 @@ public class ComputerAccessoriesService {
 
     private final ComputerAccessoriesRepository repository;
     private final ProductBrandService productBrandService;
+    private final SellerService sellerService;
+    private final ColorService colorService;
 
-    public ComputerAccessoriesService(ComputerAccessoriesRepository repository, ProductBrandService productBrandService) {
+    public ComputerAccessoriesService(ComputerAccessoriesRepository repository,
+                                      ProductBrandService productBrandService,
+                                      SellerService sellerService,
+                                      ColorService colorService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.sellerService = sellerService;
+        this.colorService = colorService;
     }
 
     public List<ComputerAccessoriesDto> getAll() {
@@ -34,6 +43,26 @@ public class ComputerAccessoriesService {
         return ComputerAccessoriesDto.convert(repository.findById(id)
                 .orElseThrow(
                         () -> new ComputerAccessoriesNotFoundException("Computer Accessory didnt find by id : " + id)));
+    }
+
+    public void saveComputerAccessories(CreateComputerAccessoriesRequest request) {
+        ProductBrand productBrand = productBrandService.findProductBrand(request.productBrandId());
+        Seller seller = sellerService.findSeller(request.sellerId());
+        Color color = colorService.findColorById(request.colorId());
+
+        ComputerAccessories computerAccessories = ComputerAccessories.builder()
+                .shortDetails(request.shortDetails())
+                .price(request.price())
+                .isSold(false)
+                .details(request.details())
+                .productBrand(productBrand)
+                .seller(seller)
+                .brandModel(request.brandModel())
+                .connectivityTechnology(request.connectivityTechnology())
+                .color(color)
+                .build();
+
+        repository.save(computerAccessories);
     }
 
     public List<ComputerAccessoriesDto> filter(ComputerAccessoriesFilter filter) {

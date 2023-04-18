@@ -35,7 +35,7 @@ public class PhoneController {
     }
 
     @PostMapping("/save")
-    public void savePhone(CreatePhoneRequest request) {
+    public void savePhone(@RequestBody CreatePhoneRequest request) {
         service.savePhone(request);
     }
 }

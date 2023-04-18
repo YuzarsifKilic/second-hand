@@ -35,7 +35,7 @@ public class TvController {
     }
 
     @PostMapping("/save")
-    public void saveTv(CreateTvRequest request) {
+    public void saveTv(@RequestBody CreateTvRequest request) {
         service.saveTv(request);
     }
 }

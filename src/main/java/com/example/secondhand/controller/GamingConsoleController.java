@@ -35,7 +35,7 @@ public class GamingConsoleController {
     }
 
     @PostMapping("/save")
-    public void saveGamingConsole(CreateGamingConsoleRequest request) {
+    public void saveGamingConsole(@RequestBody CreateGamingConsoleRequest request) {
         service.saveGamingConsole(request);
     }
 }
