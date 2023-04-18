@@ -2,6 +2,7 @@ package com.example.secondhand.controller;
 
 import com.example.secondhand.dto.model.TvDto;
 import com.example.secondhand.dto.filter.TvFilter;
+import com.example.secondhand.dto.request.CreateTvRequest;
 import com.example.secondhand.service.TvService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +34,8 @@ public class TvController {
         return ResponseEntity.ok(service.filterTv(tvFilter));
     }
 
-
+    @PostMapping("/save")
+    public void saveTv(CreateTvRequest request) {
+        service.saveTv(request);
+    }
 }

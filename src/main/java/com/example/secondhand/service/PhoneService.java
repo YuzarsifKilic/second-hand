@@ -9,6 +9,7 @@ import com.example.secondhand.model.Phone;
 import com.example.secondhand.model.ProductBrand;
 import com.example.secondhand.model.Seller;
 import com.example.secondhand.repository.PhoneRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,6 +43,7 @@ public class PhoneService {
                         () -> new PhoneNotFoundException("Phone didnt find by id : " + id)));
     }
 
+    @Transactional
     public void savePhone(CreatePhoneRequest request) {
         ProductBrand productBrand = productBrandService.findProductBrand(request.productBrandId());
         Seller seller = sellerService.findSeller(request.sellerId());

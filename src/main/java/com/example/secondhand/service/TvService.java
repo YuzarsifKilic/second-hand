@@ -2,10 +2,13 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.TvDto;
 import com.example.secondhand.dto.filter.TvFilter;
+import com.example.secondhand.dto.request.CreateTvRequest;
 import com.example.secondhand.exception.TvNotFoundException;
 import com.example.secondhand.model.ProductBrand;
+import com.example.secondhand.model.Seller;
 import com.example.secondhand.model.Tv;
 import com.example.secondhand.repository.TvRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +19,12 @@ public class TvService {
 
     private final TvRepository repository;
     private final ProductBrandService productBrandService;
+    private final SellerService sellerService;
 
-    public TvService(TvRepository repository, ProductBrandService productBrandService) {
+    public TvService(TvRepository repository, ProductBrandService productBrandService, SellerService sellerService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.sellerService = sellerService;
     }
 
     public List<TvDto> getAllTv() {
@@ -33,6 +38,28 @@ public class TvService {
         return TvDto.convert(repository.findById(id)
                 .orElseThrow(
                         () -> new TvNotFoundException("Tv didnt find by id : " + id)));
+    }
+
+    @Transactional
+    public void saveTv(CreateTvRequest request) {
+        ProductBrand productBrand = productBrandService.findProductBrand(request.productBrandId());
+        Seller seller = sellerService.findSeller(request.sellerId());
+
+        Tv tv = Tv.builder()
+                .shortDetails(request.shortDetails())
+                .price(request.price())
+                .isSold(false)
+                .details(request.details())
+                .productBrand(productBrand)
+                .seller(seller)
+                .brandModel(request.brandModel())
+                .screenSize(request.screenSize())
+                .resolution(request.resolution())
+                .screenType(request.screenType())
+                .quality(request.quality())
+                .build();
+
+        repository.save(tv);
     }
 
     public List<TvDto> filterTv(TvFilter filter) {
