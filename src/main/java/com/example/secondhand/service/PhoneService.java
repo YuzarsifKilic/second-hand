@@ -23,7 +23,10 @@ public class PhoneService {
     private final SellerService sellerService;
     private final ColorService colorService;
 
-    public PhoneService(PhoneRepository repository, ProductBrandService productBrandService, SellerService sellerService, ColorService colorService) {
+    public PhoneService(PhoneRepository repository,
+                        ProductBrandService productBrandService,
+                        SellerService sellerService,
+                        ColorService colorService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
         this.sellerService = sellerService;

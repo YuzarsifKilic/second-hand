@@ -2,10 +2,14 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.GamingConsoleDto;
 import com.example.secondhand.dto.filter.GamingConsoleFilter;
+import com.example.secondhand.dto.request.CreateGamingConsoleRequest;
 import com.example.secondhand.exception.GamingConsoleNotFoundException;
+import com.example.secondhand.model.Color;
 import com.example.secondhand.model.GamingConsole;
 import com.example.secondhand.model.ProductBrand;
+import com.example.secondhand.model.Seller;
 import com.example.secondhand.repository.GamingConsoleRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,10 +20,17 @@ public class GamingConsoleService {
 
     private final GamingConsoleRepository repository;
     private final ProductBrandService productBrandService;
+    private final SellerService sellerService;
+    private final ColorService colorService;
 
-    public GamingConsoleService(GamingConsoleRepository repository, ProductBrandService productBrandService) {
+    public GamingConsoleService(GamingConsoleRepository repository,
+                                ProductBrandService productBrandService,
+                                SellerService sellerService,
+                                ColorService colorService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.sellerService = sellerService;
+        this.colorService = colorService;
     }
 
     public List<GamingConsoleDto> getAll() {
@@ -33,6 +44,27 @@ public class GamingConsoleService {
         return GamingConsoleDto.convert(repository.findById(id)
                 .orElseThrow(
                         () -> new GamingConsoleNotFoundException("Gaming Console didnt find by id : " + id)));
+    }
+
+    @Transactional
+    public void saveGamingConsole(CreateGamingConsoleRequest request) {
+        ProductBrand productBrand = productBrandService.findProductBrand(request.productBrandId());
+        Seller seller = sellerService.findSeller(request.sellerId());
+        Color color = colorService.findColorById(request.colorId());
+
+        GamingConsole gamingConsole = GamingConsole.builder()
+                .shortDetails(request.shortDetails())
+                .price(request.price())
+                .isSold(false)
+                .details(request.details())
+                .productBrand(productBrand)
+                .seller(seller)
+                .brandModel(request.brandModel())
+                .storage(request.storage())
+                .color(color)
+                .build();
+
+        repository.save(gamingConsole);
     }
 
     public List<GamingConsoleDto> filter(GamingConsoleFilter filter) {

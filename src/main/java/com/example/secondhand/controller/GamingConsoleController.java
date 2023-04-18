@@ -2,6 +2,7 @@ package com.example.secondhand.controller;
 
 import com.example.secondhand.dto.model.GamingConsoleDto;
 import com.example.secondhand.dto.filter.GamingConsoleFilter;
+import com.example.secondhand.dto.request.CreateGamingConsoleRequest;
 import com.example.secondhand.service.GamingConsoleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,10 @@ public class GamingConsoleController {
     @GetMapping("/filter")
     public ResponseEntity<List<GamingConsoleDto>> filter(@RequestBody GamingConsoleFilter filter) {
         return ResponseEntity.ok(service.filter(filter));
+    }
+
+    @PostMapping("/save")
+    public void saveGamingConsole(CreateGamingConsoleRequest request) {
+        service.saveGamingConsole(request);
     }
 }
