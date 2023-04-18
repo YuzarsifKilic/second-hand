@@ -21,7 +21,7 @@ public class ProductBrandService {
                         .orElseThrow(
                                 () -> new ProductBrandNotFoundException("Brand didnt find by id : " + id)));
     }
-    public ProductBrand findProduct(int id) {
+    public ProductBrand findProductBrand(int id) {
         return
                 repository.findById(id)
                         .orElseThrow(

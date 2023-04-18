@@ -48,7 +48,7 @@ public class PcService {
 
     @Transactional
     public void savePc(CreatePcRequest request) {
-        ProductBrand productBrand = productBrandService.findProduct(request.productBrandId());
+        ProductBrand productBrand = productBrandService.findProductBrand(request.productBrandId());
         Seller seller = sellerService.findSeller(request.sellerId());
         Cpu cpu = cpuService.findCpuById(request.cpuId());
         Gpu gpu = gpuService.findGpuById(request.gpuId());

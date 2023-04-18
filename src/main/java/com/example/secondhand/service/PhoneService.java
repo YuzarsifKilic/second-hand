@@ -2,9 +2,12 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.PhoneDto;
 import com.example.secondhand.dto.filter.PhoneFilter;
+import com.example.secondhand.dto.request.CreatePhoneRequest;
 import com.example.secondhand.exception.PhoneNotFoundException;
+import com.example.secondhand.model.Color;
 import com.example.secondhand.model.Phone;
 import com.example.secondhand.model.ProductBrand;
+import com.example.secondhand.model.Seller;
 import com.example.secondhand.repository.PhoneRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +19,14 @@ public class PhoneService {
 
     private final PhoneRepository repository;
     private final ProductBrandService productBrandService;
+    private final SellerService sellerService;
+    private final ColorService colorService;
 
-    public PhoneService(PhoneRepository repository, ProductBrandService productBrandService) {
+    public PhoneService(PhoneRepository repository, ProductBrandService productBrandService, SellerService sellerService, ColorService colorService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.sellerService = sellerService;
+        this.colorService = colorService;
     }
 
     public List<PhoneDto> getAllPhones() {
@@ -33,6 +40,31 @@ public class PhoneService {
         return PhoneDto.convert(repository.findById(id)
                 .orElseThrow(
                         () -> new PhoneNotFoundException("Phone didnt find by id : " + id)));
+    }
+
+    public void savePhone(CreatePhoneRequest request) {
+        ProductBrand productBrand = productBrandService.findProductBrand(request.productBrandId());
+        Seller seller = sellerService.findSeller(request.sellerId());
+        Color color = colorService.findColorById(request.colorId());
+
+        Phone phone = Phone.builder()
+                .shortDetails(request.shortDetails())
+                .price(request.price())
+                .isSold(false)
+                .details(request.details())
+                .productBrand(productBrand)
+                .seller(seller)
+                .brandModel(request.brandModel())
+                .os(request.os())
+                .screenSize(request.screenSize())
+                .screenType(request.screenType())
+                .ramSize(request.ramSize())
+                .camera(request.camera())
+                .frontCamera(request.frontCamera())
+                .color(color)
+                .build();
+
+        repository.save(phone);
     }
 
     public List<PhoneDto> phoneFilter(PhoneFilter filter) {

@@ -2,6 +2,7 @@ package com.example.secondhand.controller;
 
 import com.example.secondhand.dto.model.PhoneDto;
 import com.example.secondhand.dto.filter.PhoneFilter;
+import com.example.secondhand.dto.request.CreatePhoneRequest;
 import com.example.secondhand.service.PhoneService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,10 @@ public class PhoneController {
     @GetMapping("/filter")
     public ResponseEntity<List<PhoneDto>> phoneFilter(@RequestBody PhoneFilter filter) {
         return ResponseEntity.ok(service.phoneFilter(filter));
+    }
+
+    @PostMapping("/save")
+    public void savePhone(CreatePhoneRequest request) {
+        service.savePhone(request);
     }
 }

@@ -1,6 +1,8 @@
 package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.ColorDto;
+import com.example.secondhand.exception.ColorNotFoundException;
+import com.example.secondhand.model.Color;
 import com.example.secondhand.repository.ColorRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +23,11 @@ public class ColorService {
                 .stream()
                 .map(ColorDto::convert)
                 .collect(Collectors.toList());
+    }
+
+    protected Color findColorById(int id) {
+        return repository.findById(id)
+                .orElseThrow(
+                        () -> new ColorNotFoundException("Color didnt find by id : " + id));
     }
 }
