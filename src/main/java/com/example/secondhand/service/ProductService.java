@@ -31,6 +31,10 @@ public class ProductService {
                         () -> new ProductNotFoundException("Product didnt find by id : " + id));
     }
 
+    public void deleteProduct(Long id) {
+        repository.deleteById(id);
+    }
+
     public List<ProductDto> findProductBySellerId(String id) {
         return repository.findAll()
                 .stream()

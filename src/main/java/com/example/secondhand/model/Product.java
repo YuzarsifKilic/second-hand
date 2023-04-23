@@ -32,6 +32,8 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private Seller seller;
+    @OneToMany(mappedBy = "product")
+    private Set<Deal> deals;
 
     public Product(String shortDetails, float price, boolean isSold, String details, ProductBrand productBrand, Seller seller) {
         this.shortDetails = shortDetails;

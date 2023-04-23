@@ -26,4 +26,9 @@ public class ProductController {
     public ResponseEntity<List<ProductDto>> getProductsBySellerId(@PathVariable String id) {
         return ResponseEntity.ok(service.findProductBySellerId(id));
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        service.deleteProduct(id);
+    }
 }
