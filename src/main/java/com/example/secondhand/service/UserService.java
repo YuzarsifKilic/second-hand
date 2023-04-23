@@ -1,6 +1,7 @@
 package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.UserDto;
+import com.example.secondhand.dto.request.EmailCheckRequest;
 import com.example.secondhand.exception.GenericException;
 import com.example.secondhand.model.User;
 import com.example.secondhand.repository.UserRepository;
@@ -26,6 +27,10 @@ public class UserService {
                 .id(savedUser.getId())
                 .role(savedUser.getRole())
                 .build();
+    }
+
+    public boolean checkTheEmailInUse(EmailCheckRequest request) {
+        return repository.findByEmail(request.email()).isPresent();
     }
 
     public UserDto getUser(String username) {
