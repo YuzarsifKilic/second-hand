@@ -2,6 +2,7 @@ package com.example.secondhand.controller;
 
 import com.example.secondhand.dto.model.GamingConsoleDto;
 import com.example.secondhand.dto.filter.GamingConsoleFilter;
+import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreateGamingConsoleRequest;
 import com.example.secondhand.service.GamingConsoleService;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class GamingConsoleController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<List<GamingConsoleDto>> getAll() {
+    public ResponseEntity<List<ProductDto>> getAll() {
         return ResponseEntity.ok(service.getAll());
     }
 
@@ -30,7 +31,7 @@ public class GamingConsoleController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<GamingConsoleDto>> filter(@RequestBody GamingConsoleFilter filter) {
+    public ResponseEntity<List<ProductDto>> filter(@RequestBody GamingConsoleFilter filter) {
         return ResponseEntity.ok(service.filter(filter));
     }
 

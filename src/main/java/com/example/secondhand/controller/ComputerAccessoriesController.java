@@ -2,6 +2,7 @@ package com.example.secondhand.controller;
 
 import com.example.secondhand.dto.filter.ComputerAccessoriesFilter;
 import com.example.secondhand.dto.model.ComputerAccessoriesDto;
+import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreateComputerAccessoriesRequest;
 import com.example.secondhand.service.ComputerAccessoriesService;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ComputerAccessoriesController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<List<ComputerAccessoriesDto>> getAll() {
+    public ResponseEntity<List<ProductDto>> getAll() {
         return ResponseEntity.ok(service.getAll());
     }
 
@@ -30,7 +31,7 @@ public class ComputerAccessoriesController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<ComputerAccessoriesDto>> filter(@RequestBody ComputerAccessoriesFilter filter) {
+    public ResponseEntity<List<ProductDto>> filter(@RequestBody ComputerAccessoriesFilter filter) {
         return ResponseEntity.ok(service.filter(filter));
     }
 

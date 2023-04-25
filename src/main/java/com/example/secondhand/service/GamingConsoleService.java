@@ -2,6 +2,7 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.GamingConsoleDto;
 import com.example.secondhand.dto.filter.GamingConsoleFilter;
+import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreateGamingConsoleRequest;
 import com.example.secondhand.exception.GamingConsoleNotFoundException;
 import com.example.secondhand.model.Color;
@@ -33,10 +34,10 @@ public class GamingConsoleService {
         this.colorService = colorService;
     }
 
-    public List<GamingConsoleDto> getAll() {
+    public List<ProductDto> getAll() {
         return repository.findAll()
                 .stream()
-                .map(GamingConsoleDto::convert)
+                .map(ProductDto::convert)
                 .collect(Collectors.toList());
     }
 
@@ -67,14 +68,14 @@ public class GamingConsoleService {
         repository.save(gamingConsole);
     }
 
-    public List<GamingConsoleDto> filter(GamingConsoleFilter filter) {
+    public List<ProductDto> filter(GamingConsoleFilter filter) {
         List<GamingConsole> gamingConsoleList = repository.findAll();
         if (!filter.getBrandName().isEmpty())
             gamingConsoleList = brandFilter(gamingConsoleList, filter.getBrandName());
         if (filter.getColorId() != null)
             gamingConsoleList = colorFilter(gamingConsoleList, filter.getColorId());
         return gamingConsoleList.stream()
-                .map(GamingConsoleDto::convert)
+                .map(ProductDto::convert)
                 .collect(Collectors.toList());
     }
 

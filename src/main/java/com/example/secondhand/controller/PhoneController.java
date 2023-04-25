@@ -2,6 +2,7 @@ package com.example.secondhand.controller;
 
 import com.example.secondhand.dto.model.PhoneDto;
 import com.example.secondhand.dto.filter.PhoneFilter;
+import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreatePhoneRequest;
 import com.example.secondhand.service.PhoneService;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class PhoneController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<List<PhoneDto>> getAllPhones() {
+    public ResponseEntity<List<ProductDto>> getAllPhones() {
         return ResponseEntity.ok(service.getAllPhones());
     }
 
@@ -30,7 +31,7 @@ public class PhoneController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<PhoneDto>> phoneFilter(@RequestBody PhoneFilter filter) {
+    public ResponseEntity<List<ProductDto>> phoneFilter(@RequestBody PhoneFilter filter) {
         return ResponseEntity.ok(service.phoneFilter(filter));
     }
 

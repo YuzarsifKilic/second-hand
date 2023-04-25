@@ -1,5 +1,6 @@
 package com.example.secondhand.service;
 
+import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.model.TvDto;
 import com.example.secondhand.dto.filter.TvFilter;
 import com.example.secondhand.dto.request.CreateTvRequest;
@@ -27,10 +28,10 @@ public class TvService {
         this.sellerService = sellerService;
     }
 
-    public List<TvDto> getAllTv() {
+    public List<ProductDto> getAllTv() {
         return repository.findAll()
                 .stream()
-                .map(TvDto::convert)
+                .map(ProductDto::convert)
                 .collect(Collectors.toList());
     }
 
@@ -62,7 +63,7 @@ public class TvService {
         repository.save(tv);
     }
 
-    public List<TvDto> filterTv(TvFilter filter) {
+    public List<ProductDto> filterTv(TvFilter filter) {
         List<Tv> tvList = repository.findAll();
         if (!filter.getBrandName().isEmpty())
             tvList = brandFilter(tvList, filter.getBrandName());
@@ -70,7 +71,7 @@ public class TvService {
             tvList = screenTypeFilter(tvList, filter.getScreenType());
 
         return tvList.stream()
-                .map(TvDto::convert)
+                .map(ProductDto::convert)
                 .collect(Collectors.toList());
     }
 

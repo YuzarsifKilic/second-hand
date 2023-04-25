@@ -1,7 +1,7 @@
 package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.ProductDto;
-import com.example.secondhand.dto.request.EmailCheckRequest;
+import com.example.secondhand.dto.model.ProductResponseDto;
 import com.example.secondhand.exception.ProductNotFoundException;
 import com.example.secondhand.model.Product;
 import com.example.secondhand.repository.ProductRepository;
@@ -14,9 +14,11 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository repository;
+    private final ProductPhotoService productPhotoService;
 
-    public ProductService(ProductRepository repository) {
+    public ProductService(ProductRepository repository, ProductPhotoService productPhotoService) {
         this.repository = repository;
+        this.productPhotoService = productPhotoService;
     }
 
     public ProductDto findProductById(Long id) {

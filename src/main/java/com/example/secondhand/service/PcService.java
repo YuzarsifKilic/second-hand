@@ -2,6 +2,7 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.PcDto;
 import com.example.secondhand.dto.filter.PcFilter;
+import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreatePcRequest;
 import com.example.secondhand.exception.PcNotFoundException;
 import com.example.secondhand.model.*;
@@ -39,10 +40,10 @@ public class PcService {
                         () -> new PcNotFoundException("Pc didnt find by id : " + id)));
     }
 
-    public List<PcDto> getAll() {
+    public List<ProductDto> getAll() {
         return repository.findAll()
                 .stream()
-                .map(PcDto::convert)
+                .map(ProductDto::convert)
                 .collect(Collectors.toList());
     }
 
@@ -75,7 +76,7 @@ public class PcService {
         repository.save(pc);
     }
 
-    public List<PcDto> filterPc(PcFilter pcFilter) {
+    public List<ProductDto> filterPc(PcFilter pcFilter) {
         List<Pc> pcList = repository.findAll();
         if (!pcFilter.getBrandName().isEmpty())
             pcList = brandFilter(pcList, pcFilter.getBrandName());
@@ -87,7 +88,7 @@ public class PcService {
             pcList = ramSizeFilter(pcList, pcFilter.getRamSize());
 
         return pcList.stream()
-                .map(PcDto::convert)
+                .map(ProductDto::convert)
                 .collect(Collectors.toList());
     }
 

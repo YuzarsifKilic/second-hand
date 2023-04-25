@@ -1,5 +1,6 @@
 package com.example.secondhand.controller;
 
+import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.model.TvDto;
 import com.example.secondhand.dto.filter.TvFilter;
 import com.example.secondhand.dto.request.CreateTvRequest;
@@ -20,7 +21,7 @@ public class TvController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<List<TvDto>> getAllTv() {
+    public ResponseEntity<List<ProductDto>> getAllTv() {
         return ResponseEntity.ok(service.getAllTv());
     }
 
@@ -30,7 +31,7 @@ public class TvController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<TvDto>> filterTv(@RequestBody TvFilter tvFilter) {
+    public ResponseEntity<List<ProductDto>> filterTv(@RequestBody TvFilter tvFilter) {
         return ResponseEntity.ok(service.filterTv(tvFilter));
     }
 

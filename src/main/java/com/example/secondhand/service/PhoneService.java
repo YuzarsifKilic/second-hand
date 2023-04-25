@@ -2,6 +2,7 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.PhoneDto;
 import com.example.secondhand.dto.filter.PhoneFilter;
+import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreatePhoneRequest;
 import com.example.secondhand.exception.PhoneNotFoundException;
 import com.example.secondhand.model.Color;
@@ -33,10 +34,10 @@ public class PhoneService {
         this.colorService = colorService;
     }
 
-    public List<PhoneDto> getAllPhones() {
+    public List<ProductDto> getAllPhones() {
         return repository.findAll()
                 .stream()
-                .map(PhoneDto::convert)
+                .map(ProductDto::convert)
                 .collect(Collectors.toList());
     }
 
@@ -72,7 +73,7 @@ public class PhoneService {
         repository.save(phone);
     }
 
-    public List<PhoneDto> phoneFilter(PhoneFilter filter) {
+    public List<ProductDto> phoneFilter(PhoneFilter filter) {
         List<Phone> phoneList = repository.findAll();
         if (!filter.getBrandName().isEmpty())
             phoneList = brandFilter(phoneList, filter.getBrandName());
@@ -86,7 +87,7 @@ public class PhoneService {
             phoneList = frontCameraFilter(phoneList, filter.getFrontCameraMin(), filter.getFrontCameraMax());
 
         return phoneList.stream()
-                .map(PhoneDto::convert)
+                .map(ProductDto::convert)
                 .collect(Collectors.toList());
     }
 

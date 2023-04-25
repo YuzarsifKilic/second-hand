@@ -2,6 +2,7 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.filter.ComputerAccessoriesFilter;
 import com.example.secondhand.dto.model.ComputerAccessoriesDto;
+import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreateComputerAccessoriesRequest;
 import com.example.secondhand.exception.ComputerAccessoriesNotFoundException;
 import com.example.secondhand.model.Color;
@@ -32,10 +33,10 @@ public class ComputerAccessoriesService {
         this.colorService = colorService;
     }
 
-    public List<ComputerAccessoriesDto> getAll() {
+    public List<ProductDto> getAll() {
         return repository.findAll()
                 .stream()
-                .map(ComputerAccessoriesDto::convert)
+                .map(ProductDto::convert)
                 .collect(Collectors.toList());
     }
 
@@ -65,7 +66,7 @@ public class ComputerAccessoriesService {
         repository.save(computerAccessories);
     }
 
-    public List<ComputerAccessoriesDto> filter(ComputerAccessoriesFilter filter) {
+    public List<ProductDto> filter(ComputerAccessoriesFilter filter) {
         List<ComputerAccessories> computerAccessoriesList = repository.findAll();
         if (!filter.getBrandName().isEmpty())
             computerAccessoriesList = brandFilter(computerAccessoriesList, filter.getBrandName());
@@ -75,7 +76,7 @@ public class ComputerAccessoriesService {
             computerAccessoriesList = connectivityTechnologyFilter(computerAccessoriesList, filter.getConnectivityTechnology());
 
         return computerAccessoriesList.stream()
-                .map(ComputerAccessoriesDto::convert)
+                .map(ProductDto::convert)
                 .collect(Collectors.toList());
     }
 
