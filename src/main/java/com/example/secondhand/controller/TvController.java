@@ -3,6 +3,7 @@ package com.example.secondhand.controller;
 import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.model.TvDto;
 import com.example.secondhand.dto.filter.TvFilter;
+import com.example.secondhand.dto.model.TvResponseDto;
 import com.example.secondhand.dto.request.CreateTvRequest;
 import com.example.secondhand.service.TvService;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class TvController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TvDto> findTvById(@PathVariable Long id) {
+    public ResponseEntity<TvResponseDto> findTvById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findTvById(id));
     }
 

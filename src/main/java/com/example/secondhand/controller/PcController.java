@@ -2,6 +2,7 @@ package com.example.secondhand.controller;
 
 import com.example.secondhand.dto.model.PcDto;
 import com.example.secondhand.dto.filter.PcFilter;
+import com.example.secondhand.dto.model.PcResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreatePcRequest;
 import com.example.secondhand.service.PcService;
@@ -26,7 +27,7 @@ public class PcController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PcDto> findPcById(@PathVariable Long id) {
+    public ResponseEntity<PcResponseDto> findPcById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findPcById(id));
     }
 

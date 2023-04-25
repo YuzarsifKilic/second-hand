@@ -2,6 +2,7 @@ package com.example.secondhand.controller;
 
 import com.example.secondhand.dto.filter.ComputerAccessoriesFilter;
 import com.example.secondhand.dto.model.ComputerAccessoriesDto;
+import com.example.secondhand.dto.model.ComputerAccessoriesResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreateComputerAccessoriesRequest;
 import com.example.secondhand.service.ComputerAccessoriesService;
@@ -26,7 +27,7 @@ public class ComputerAccessoriesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ComputerAccessoriesDto> findComputerAccessoriesById(@PathVariable Long id) {
+    public ResponseEntity<ComputerAccessoriesResponseDto> findComputerAccessoriesById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findComputerAccessoriesById(id));
     }
 

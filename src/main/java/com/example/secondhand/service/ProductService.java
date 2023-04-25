@@ -14,11 +14,9 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository repository;
-    private final ProductPhotoService productPhotoService;
 
-    public ProductService(ProductRepository repository, ProductPhotoService productPhotoService) {
+    public ProductService(ProductRepository repository) {
         this.repository = repository;
-        this.productPhotoService = productPhotoService;
     }
 
     public ProductDto findProductById(Long id) {

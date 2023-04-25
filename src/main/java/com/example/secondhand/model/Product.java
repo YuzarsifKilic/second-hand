@@ -24,6 +24,11 @@ public class Product {
     private float price;
     private boolean isSold;
     private String details;
+    private boolean isPc;
+    private boolean isPhone;
+    private boolean isTv;
+    private boolean isGamingConsole;
+    private boolean isComputerAccessories;
     @ManyToOne
     @JoinColumn(name = "product_brand_id")
     private ProductBrand productBrand;
@@ -34,13 +39,4 @@ public class Product {
     private Seller seller;
     @OneToMany(mappedBy = "product")
     private Set<Deal> deals;
-
-    public Product(String shortDetails, float price, boolean isSold, String details, ProductBrand productBrand, Seller seller) {
-        this.shortDetails = shortDetails;
-        this.price = price;
-        this.isSold = isSold;
-        this.details = details;
-        this.productBrand = productBrand;
-        this.seller = seller;
-    }
 }

@@ -1,7 +1,8 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.model.PhoneDto;
 import com.example.secondhand.dto.filter.PhoneFilter;
+import com.example.secondhand.dto.model.PhoneDto;
+import com.example.secondhand.dto.model.PhoneResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreatePhoneRequest;
 import com.example.secondhand.exception.PhoneNotFoundException;
@@ -21,15 +22,18 @@ public class PhoneService {
 
     private final PhoneRepository repository;
     private final ProductBrandService productBrandService;
+    private final ProductService productService;
     private final SellerService sellerService;
     private final ColorService colorService;
 
     public PhoneService(PhoneRepository repository,
                         ProductBrandService productBrandService,
+                        ProductService productService,
                         SellerService sellerService,
                         ColorService colorService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.productService = productService;
         this.sellerService = sellerService;
         this.colorService = colorService;
     }
@@ -41,10 +45,11 @@ public class PhoneService {
                 .collect(Collectors.toList());
     }
 
-    public PhoneDto findPhoneById(Long id) {
-        return PhoneDto.convert(repository.findById(id)
+    public PhoneResponseDto findPhoneById(Long id) {
+        Phone phone = repository.findById(id)
                 .orElseThrow(
-                        () -> new PhoneNotFoundException("Phone didnt find by id : " + id)));
+                        () -> new PhoneNotFoundException("Phone didnt find by id : " + id));
+        return new PhoneResponseDto(productService.findProductById(id), PhoneDto.convert(phone));
     }
 
     @Transactional
@@ -58,6 +63,11 @@ public class PhoneService {
                 .price(request.price())
                 .isSold(false)
                 .details(request.details())
+                .isPc(false)
+                .isPhone(true)
+                .isTv(false)
+                .isGamingConsole(false)
+                .isComputerAccessories(false)
                 .productBrand(productBrand)
                 .seller(seller)
                 .brandModel(request.brandModel())

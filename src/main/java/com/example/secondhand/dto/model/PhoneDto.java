@@ -2,14 +2,7 @@ package com.example.secondhand.dto.model;
 
 import com.example.secondhand.model.Phone;
 
-public record PhoneDto(Long id,
-                       String shortDetails,
-                       float price,
-                       boolean isSold,
-                       String details,
-                       ProductBrandDto productBrand,
-                       SellerDto seller,
-                       String brandModel,
+public record PhoneDto(String brandModel,
                        String os,
                        double screenSize,
                        String screenType,
@@ -20,13 +13,6 @@ public record PhoneDto(Long id,
 
     public static PhoneDto convert(Phone from) {
         return new PhoneDto(
-                from.getId(),
-                from.getShortDetails(),
-                from.getPrice(),
-                from.isSold(),
-                from.getDetails(),
-                ProductBrandDto.convert(from.getProductBrand()),
-                SellerDto.convert(from.getSeller()),
                 from.getBrandModel(),
                 from.getOs(),
                 from.getScreenSize(),

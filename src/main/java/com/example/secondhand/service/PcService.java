@@ -2,6 +2,7 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.PcDto;
 import com.example.secondhand.dto.filter.PcFilter;
+import com.example.secondhand.dto.model.PcResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreatePcRequest;
 import com.example.secondhand.exception.PcNotFoundException;
@@ -18,26 +19,31 @@ public class PcService {
 
     private final PcRepository repository;
     private final ProductBrandService productBrandService;
+    private final ProductService productService;
     private final SellerService sellerService;
     private final CpuService cpuService;
     private final GpuService gpuService;
 
     public PcService(PcRepository repository,
                      ProductBrandService productBrandService,
+                     ProductService productService,
                      SellerService sellerService,
                      CpuService cpuService,
                      GpuService gpuService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.productService = productService;
         this.sellerService = sellerService;
         this.cpuService = cpuService;
         this.gpuService = gpuService;
     }
 
-    public PcDto findPcById(Long id) {
-        return PcDto.convert(repository.findById(id)
+    public PcResponseDto findPcById(Long id) {
+        Pc pc = repository.findById(id)
                 .orElseThrow(
-                        () -> new PcNotFoundException("Pc didnt find by id : " + id)));
+                        () -> new PcNotFoundException("Pc didnt find by id : " + id));
+
+        return new PcResponseDto(productService.findProductById(pc.getId()), PcDto.convert(pc));
     }
 
     public List<ProductDto> getAll() {
@@ -60,6 +66,11 @@ public class PcService {
                 .isSold(false)
                 .details(request.details())
                 .productBrand(productBrand)
+                .isPc(true)
+                .isPhone(false)
+                .isTv(false)
+                .isGamingConsole(false)
+                .isComputerAccessories(false)
                 .seller(seller)
                 .brandModel(request.brandModel())
                 .cpu(cpu)

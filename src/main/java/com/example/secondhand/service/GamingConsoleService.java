@@ -1,7 +1,8 @@
 package com.example.secondhand.service;
 
-import com.example.secondhand.dto.model.GamingConsoleDto;
 import com.example.secondhand.dto.filter.GamingConsoleFilter;
+import com.example.secondhand.dto.model.GamingConsoleDto;
+import com.example.secondhand.dto.model.GamingConsoleResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreateGamingConsoleRequest;
 import com.example.secondhand.exception.GamingConsoleNotFoundException;
@@ -21,15 +22,18 @@ public class GamingConsoleService {
 
     private final GamingConsoleRepository repository;
     private final ProductBrandService productBrandService;
+    private final ProductService productService;
     private final SellerService sellerService;
     private final ColorService colorService;
 
     public GamingConsoleService(GamingConsoleRepository repository,
                                 ProductBrandService productBrandService,
+                                ProductService productService,
                                 SellerService sellerService,
                                 ColorService colorService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.productService = productService;
         this.sellerService = sellerService;
         this.colorService = colorService;
     }
@@ -41,10 +45,11 @@ public class GamingConsoleService {
                 .collect(Collectors.toList());
     }
 
-    public GamingConsoleDto findGamingConsoleById(Long id) {
-        return GamingConsoleDto.convert(repository.findById(id)
+    public GamingConsoleResponseDto findGamingConsoleById(Long id) {
+        GamingConsole gamingConsole = repository.findById(id)
                 .orElseThrow(
-                        () -> new GamingConsoleNotFoundException("Gaming Console didnt find by id : " + id)));
+                        () -> new GamingConsoleNotFoundException("Gaming Console didnt find by id : " + id));
+        return new GamingConsoleResponseDto(productService.findProductById(id), GamingConsoleDto.convert(gamingConsole));
     }
 
     @Transactional
@@ -58,6 +63,11 @@ public class GamingConsoleService {
                 .price(request.price())
                 .isSold(false)
                 .details(request.details())
+                .isPc(false)
+                .isPhone(false)
+                .isTv(false)
+                .isGamingConsole(true)
+                .isComputerAccessories(false)
                 .productBrand(productBrand)
                 .seller(seller)
                 .brandModel(request.brandModel())

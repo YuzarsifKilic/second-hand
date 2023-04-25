@@ -7,6 +7,11 @@ public record ProductDto(Long id,
                          float price,
                          boolean isSold,
                          String details,
+                         boolean isPc,
+                         boolean isPhone,
+                         boolean isTv,
+                         boolean isGamingConsole,
+                         boolean isComputerAccessories,
                          ProductBrandDto productBrand,
                          SellerDto seller) {
 
@@ -17,6 +22,11 @@ public record ProductDto(Long id,
                 from.getPrice(),
                 from.isSold(),
                 from.getDetails(),
+                from.isPc(),
+                from.isPhone(),
+                from.isTv(),
+                from.isGamingConsole(),
+                from.isComputerAccessories(),
                 ProductBrandDto.convert(from.getProductBrand()),
                 SellerDto.convert(from.getSeller()));
     }

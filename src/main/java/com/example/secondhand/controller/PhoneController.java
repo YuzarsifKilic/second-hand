@@ -2,6 +2,7 @@ package com.example.secondhand.controller;
 
 import com.example.secondhand.dto.model.PhoneDto;
 import com.example.secondhand.dto.filter.PhoneFilter;
+import com.example.secondhand.dto.model.PhoneResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreatePhoneRequest;
 import com.example.secondhand.service.PhoneService;
@@ -26,7 +27,7 @@ public class PhoneController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PhoneDto> findPcById(@PathVariable Long id) {
+    public ResponseEntity<PhoneResponseDto> findPcById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findPhoneById(id));
     }
 

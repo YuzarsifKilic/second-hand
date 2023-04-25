@@ -2,6 +2,7 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.filter.ComputerAccessoriesFilter;
 import com.example.secondhand.dto.model.ComputerAccessoriesDto;
+import com.example.secondhand.dto.model.ComputerAccessoriesResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreateComputerAccessoriesRequest;
 import com.example.secondhand.exception.ComputerAccessoriesNotFoundException;
@@ -20,15 +21,18 @@ public class ComputerAccessoriesService {
 
     private final ComputerAccessoriesRepository repository;
     private final ProductBrandService productBrandService;
+    private final ProductService productService;
     private final SellerService sellerService;
     private final ColorService colorService;
 
     public ComputerAccessoriesService(ComputerAccessoriesRepository repository,
                                       ProductBrandService productBrandService,
+                                      ProductService productService,
                                       SellerService sellerService,
                                       ColorService colorService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.productService = productService;
         this.sellerService = sellerService;
         this.colorService = colorService;
     }
@@ -40,10 +44,11 @@ public class ComputerAccessoriesService {
                 .collect(Collectors.toList());
     }
 
-    public ComputerAccessoriesDto findComputerAccessoriesById(Long id) {
-        return ComputerAccessoriesDto.convert(repository.findById(id)
+    public ComputerAccessoriesResponseDto findComputerAccessoriesById(Long id) {
+        ComputerAccessories computerAccessories = repository.findById(id)
                 .orElseThrow(
-                        () -> new ComputerAccessoriesNotFoundException("Computer Accessory didnt find by id : " + id)));
+                        () -> new ComputerAccessoriesNotFoundException("Computer Accessory didnt find by id : " + id));
+        return new ComputerAccessoriesResponseDto(productService.findProductById(id), ComputerAccessoriesDto.convert(computerAccessories));
     }
 
     public void saveComputerAccessories(CreateComputerAccessoriesRequest request) {
@@ -56,6 +61,11 @@ public class ComputerAccessoriesService {
                 .price(request.price())
                 .isSold(false)
                 .details(request.details())
+                .isPc(false)
+                .isPhone(false)
+                .isTv(false)
+                .isGamingConsole(false)
+                .isComputerAccessories(true)
                 .productBrand(productBrand)
                 .seller(seller)
                 .brandModel(request.brandModel())

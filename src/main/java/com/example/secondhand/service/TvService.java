@@ -1,8 +1,9 @@
 package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.ProductDto;
-import com.example.secondhand.dto.model.TvDto;
 import com.example.secondhand.dto.filter.TvFilter;
+import com.example.secondhand.dto.model.TvDto;
+import com.example.secondhand.dto.model.TvResponseDto;
 import com.example.secondhand.dto.request.CreateTvRequest;
 import com.example.secondhand.exception.TvNotFoundException;
 import com.example.secondhand.model.ProductBrand;
@@ -20,11 +21,16 @@ public class TvService {
 
     private final TvRepository repository;
     private final ProductBrandService productBrandService;
+    private final ProductService productService;
     private final SellerService sellerService;
 
-    public TvService(TvRepository repository, ProductBrandService productBrandService, SellerService sellerService) {
+    public TvService(TvRepository repository,
+                     ProductBrandService productBrandService,
+                     ProductService productService,
+                     SellerService sellerService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.productService = productService;
         this.sellerService = sellerService;
     }
 
@@ -35,10 +41,11 @@ public class TvService {
                 .collect(Collectors.toList());
     }
 
-    public TvDto findTvById(Long id) {
-        return TvDto.convert(repository.findById(id)
+    public TvResponseDto findTvById(Long id) {
+        Tv tv = repository.findById(id)
                 .orElseThrow(
-                        () -> new TvNotFoundException("Tv didnt find by id : " + id)));
+                        () -> new TvNotFoundException("Tv didnt find by id : " + id));
+        return new TvResponseDto(productService.findProductById(id), TvDto.convert(tv));
     }
 
     @Transactional
@@ -51,6 +58,11 @@ public class TvService {
                 .price(request.price())
                 .isSold(false)
                 .details(request.details())
+                .isPc(false)
+                .isPhone(false)
+                .isTv(true)
+                .isGamingConsole(false)
+                .isComputerAccessories(false)
                 .productBrand(productBrand)
                 .seller(seller)
                 .brandModel(request.brandModel())

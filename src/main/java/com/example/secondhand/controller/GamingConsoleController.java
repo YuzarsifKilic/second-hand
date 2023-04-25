@@ -2,6 +2,7 @@ package com.example.secondhand.controller;
 
 import com.example.secondhand.dto.model.GamingConsoleDto;
 import com.example.secondhand.dto.filter.GamingConsoleFilter;
+import com.example.secondhand.dto.model.GamingConsoleResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.request.CreateGamingConsoleRequest;
 import com.example.secondhand.service.GamingConsoleService;
@@ -26,7 +27,7 @@ public class GamingConsoleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GamingConsoleDto> findGamingConsoleById(@PathVariable Long id) {
+    public ResponseEntity<GamingConsoleResponseDto> findGamingConsoleById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findGamingConsoleById(id));
     }
 
