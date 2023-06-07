@@ -22,6 +22,7 @@ public class Phone extends Product {
     private int ramSize;
     private int camera;
     private int frontCamera;
+    private int storage;
     @ManyToOne
     @JoinColumn(name = "color_id")
     private Color color;

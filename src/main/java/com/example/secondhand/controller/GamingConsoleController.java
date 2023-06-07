@@ -4,6 +4,7 @@ import com.example.secondhand.dto.model.GamingConsoleDto;
 import com.example.secondhand.dto.filter.GamingConsoleFilter;
 import com.example.secondhand.dto.model.GamingConsoleResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
+import com.example.secondhand.dto.model.ProductResponseDto;
 import com.example.secondhand.dto.request.CreateGamingConsoleRequest;
 import com.example.secondhand.service.GamingConsoleService;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +32,13 @@ public class GamingConsoleController {
         return ResponseEntity.ok(service.findGamingConsoleById(id));
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<List<ProductDto>> filter(@RequestBody GamingConsoleFilter filter) {
+    @PostMapping("/filter")
+    public ResponseEntity<List<ProductResponseDto>> filter(@RequestBody GamingConsoleFilter filter) {
         return ResponseEntity.ok(service.filter(filter));
     }
 
     @PostMapping("/save")
-    public void saveGamingConsole(@RequestBody CreateGamingConsoleRequest request) {
-        service.saveGamingConsole(request);
+    public ResponseEntity<Long> saveGamingConsole(@RequestBody CreateGamingConsoleRequest request) {
+        return ResponseEntity.ok(service.saveGamingConsole(request));
     }
 }

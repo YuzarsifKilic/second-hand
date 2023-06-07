@@ -4,6 +4,7 @@ import com.example.secondhand.dto.filter.ComputerAccessoriesFilter;
 import com.example.secondhand.dto.model.ComputerAccessoriesDto;
 import com.example.secondhand.dto.model.ComputerAccessoriesResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
+import com.example.secondhand.dto.model.ProductResponseDto;
 import com.example.secondhand.dto.request.CreateComputerAccessoriesRequest;
 import com.example.secondhand.exception.ComputerAccessoriesNotFoundException;
 import com.example.secondhand.model.Color;
@@ -11,6 +12,7 @@ import com.example.secondhand.model.ComputerAccessories;
 import com.example.secondhand.model.ProductBrand;
 import com.example.secondhand.model.Seller;
 import com.example.secondhand.repository.ComputerAccessoriesRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,17 +23,20 @@ public class ComputerAccessoriesService {
 
     private final ComputerAccessoriesRepository repository;
     private final ProductBrandService productBrandService;
+    private final ProductPhotoFindService productPhotoFindService;
     private final ProductService productService;
     private final SellerService sellerService;
     private final ColorService colorService;
 
     public ComputerAccessoriesService(ComputerAccessoriesRepository repository,
                                       ProductBrandService productBrandService,
+                                      ProductPhotoFindService productPhotoFindService,
                                       ProductService productService,
                                       SellerService sellerService,
                                       ColorService colorService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.productPhotoFindService = productPhotoFindService;
         this.productService = productService;
         this.sellerService = sellerService;
         this.colorService = colorService;
@@ -51,7 +56,8 @@ public class ComputerAccessoriesService {
         return new ComputerAccessoriesResponseDto(productService.findProductById(id), ComputerAccessoriesDto.convert(computerAccessories));
     }
 
-    public void saveComputerAccessories(CreateComputerAccessoriesRequest request) {
+    @Transactional
+    public Long saveComputerAccessories(CreateComputerAccessoriesRequest request) {
         ProductBrand productBrand = productBrandService.findProductBrand(request.productBrandId());
         Seller seller = sellerService.findSeller(request.sellerId());
         Color color = colorService.findColorById(request.colorId());
@@ -73,10 +79,12 @@ public class ComputerAccessoriesService {
                 .color(color)
                 .build();
 
-        repository.save(computerAccessories);
+        final ComputerAccessories save = repository.save(computerAccessories);
+
+        return save.getId();
     }
 
-    public List<ProductDto> filter(ComputerAccessoriesFilter filter) {
+    public List<ProductResponseDto> filter(ComputerAccessoriesFilter filter) {
         List<ComputerAccessories> computerAccessoriesList = repository.findAll();
         if (!filter.getBrandName().isEmpty())
             computerAccessoriesList = brandFilter(computerAccessoriesList, filter.getBrandName());
@@ -86,7 +94,10 @@ public class ComputerAccessoriesService {
             computerAccessoriesList = connectivityTechnologyFilter(computerAccessoriesList, filter.getConnectivityTechnology());
 
         return computerAccessoriesList.stream()
-                .map(ProductDto::convert)
+                .map(p -> {
+                    String imageUrl = productPhotoFindService.getFirstUrlOfProductPhoto(p.getId());
+                    return new ProductResponseDto(ProductDto.convert(p), imageUrl);
+                })
                 .collect(Collectors.toList());
     }
 

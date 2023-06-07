@@ -4,6 +4,7 @@ import com.example.secondhand.dto.model.PcDto;
 import com.example.secondhand.dto.filter.PcFilter;
 import com.example.secondhand.dto.model.PcResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
+import com.example.secondhand.dto.model.ProductResponseDto;
 import com.example.secondhand.dto.request.CreatePcRequest;
 import com.example.secondhand.exception.PcNotFoundException;
 import com.example.secondhand.model.*;
@@ -19,6 +20,8 @@ public class PcService {
 
     private final PcRepository repository;
     private final ProductBrandService productBrandService;
+    private final ProductPhotoService productPhotoService;
+    private final ProductPhotoFindService productPhotoFindService;
     private final ProductService productService;
     private final SellerService sellerService;
     private final CpuService cpuService;
@@ -26,12 +29,16 @@ public class PcService {
 
     public PcService(PcRepository repository,
                      ProductBrandService productBrandService,
+                     ProductPhotoService productPhotoService,
+                     ProductPhotoFindService productPhotoFindService,
                      ProductService productService,
                      SellerService sellerService,
                      CpuService cpuService,
                      GpuService gpuService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.productPhotoService = productPhotoService;
+        this.productPhotoFindService = productPhotoFindService;
         this.productService = productService;
         this.sellerService = sellerService;
         this.cpuService = cpuService;
@@ -47,6 +54,13 @@ public class PcService {
     }
 
     public List<ProductDto> getAll() {
+        List<Long> idList = repository.findAll()
+                .stream()
+                .map(Product::getId)
+                .toList();
+
+        final List<String> photoUrlByProductIdList = productPhotoService.findPhotoUrlByProductIdList(idList);
+
         return repository.findAll()
                 .stream()
                 .map(ProductDto::convert)
@@ -54,7 +68,7 @@ public class PcService {
     }
 
     @Transactional
-    public void savePc(CreatePcRequest request) {
+    public Long savePc(CreatePcRequest request) {
         ProductBrand productBrand = productBrandService.findProductBrand(request.productBrandId());
         Seller seller = sellerService.findSeller(request.sellerId());
         Cpu cpu = cpuService.findCpuById(request.cpuId());
@@ -84,10 +98,12 @@ public class PcService {
                 .resolution(request.resolution())
                 .build();
 
-        repository.save(pc);
+        final Pc save = repository.save(pc);
+
+        return save.getId();
     }
 
-    public List<ProductDto> filterPc(PcFilter pcFilter) {
+    public List<ProductResponseDto> filterPc(PcFilter pcFilter) {
         List<Pc> pcList = repository.findAll();
         if (!pcFilter.getBrandName().isEmpty())
             pcList = brandFilter(pcList, pcFilter.getBrandName());
@@ -99,8 +115,26 @@ public class PcService {
             pcList = ramSizeFilter(pcList, pcFilter.getRamSize());
 
         return pcList.stream()
-                .map(ProductDto::convert)
+                .map(p -> {
+                    String imageUrl = productPhotoFindService.getFirstUrlOfProductPhoto(p.getId());
+                    return new ProductResponseDto(ProductDto.convert(p), imageUrl);
+                })
                 .collect(Collectors.toList());
+    }
+
+    private Product pcToProduct(Pc from) {
+        return Product.builder()
+                .id(from.getId())
+                .shortDetails(from.getShortDetails())
+                .price(from.getPrice())
+                .isSold(from.isSold())
+                .details(from.getDetails())
+                .isPc(from.isPc())
+                .isPhone(from.isPhone())
+                .isTv(from.isTv())
+                .isGamingConsole(from.isGamingConsole())
+                .isComputerAccessories(from.isComputerAccessories())
+                .build();
     }
 
     private List<Pc> brandFilter(List<Pc> pcList, String brand) {

@@ -33,5 +33,4 @@ public class CustomerController {
         return ResponseEntity.ok(service.findCustomerById(id));
     }
 
-
 }

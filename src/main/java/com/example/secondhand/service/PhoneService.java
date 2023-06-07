@@ -4,6 +4,7 @@ import com.example.secondhand.dto.filter.PhoneFilter;
 import com.example.secondhand.dto.model.PhoneDto;
 import com.example.secondhand.dto.model.PhoneResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
+import com.example.secondhand.dto.model.ProductResponseDto;
 import com.example.secondhand.dto.request.CreatePhoneRequest;
 import com.example.secondhand.exception.PhoneNotFoundException;
 import com.example.secondhand.model.Color;
@@ -22,17 +23,20 @@ public class PhoneService {
 
     private final PhoneRepository repository;
     private final ProductBrandService productBrandService;
+    private final ProductPhotoFindService productPhotoFindService;
     private final ProductService productService;
     private final SellerService sellerService;
     private final ColorService colorService;
 
     public PhoneService(PhoneRepository repository,
                         ProductBrandService productBrandService,
+                        ProductPhotoFindService productPhotoFindService,
                         ProductService productService,
                         SellerService sellerService,
                         ColorService colorService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.productPhotoFindService = productPhotoFindService;
         this.productService = productService;
         this.sellerService = sellerService;
         this.colorService = colorService;
@@ -53,7 +57,7 @@ public class PhoneService {
     }
 
     @Transactional
-    public void savePhone(CreatePhoneRequest request) {
+    public Long savePhone(CreatePhoneRequest request) {
         ProductBrand productBrand = productBrandService.findProductBrand(request.productBrandId());
         Seller seller = sellerService.findSeller(request.sellerId());
         Color color = colorService.findColorById(request.colorId());
@@ -77,13 +81,16 @@ public class PhoneService {
                 .ramSize(request.ramSize())
                 .camera(request.camera())
                 .frontCamera(request.frontCamera())
+                .storage(request.storage())
                 .color(color)
                 .build();
 
-        repository.save(phone);
+        final Phone save = repository.save(phone);
+
+        return save.getId();
     }
 
-    public List<ProductDto> phoneFilter(PhoneFilter filter) {
+    public List<ProductResponseDto> phoneFilter(PhoneFilter filter) {
         List<Phone> phoneList = repository.findAll();
         if (!filter.getBrandName().isEmpty())
             phoneList = brandFilter(phoneList, filter.getBrandName());
@@ -97,7 +104,10 @@ public class PhoneService {
             phoneList = frontCameraFilter(phoneList, filter.getFrontCameraMin(), filter.getFrontCameraMax());
 
         return phoneList.stream()
-                .map(ProductDto::convert)
+                .map(p -> {
+                    String imageUrl = productPhotoFindService.getFirstUrlOfProductPhoto(p.getId());
+                    return new ProductResponseDto(ProductDto.convert(p), imageUrl);
+                })
                 .collect(Collectors.toList());
     }
 

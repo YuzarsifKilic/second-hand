@@ -1,6 +1,7 @@
 package com.example.secondhand.controller;
 
 import com.example.secondhand.dto.model.ProductDto;
+import com.example.secondhand.dto.model.ProductResponseDto;
 import com.example.secondhand.dto.model.TvDto;
 import com.example.secondhand.dto.filter.TvFilter;
 import com.example.secondhand.dto.model.TvResponseDto;
@@ -31,13 +32,13 @@ public class TvController {
         return ResponseEntity.ok(service.findTvById(id));
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<List<ProductDto>> filterTv(@RequestBody TvFilter tvFilter) {
+    @PostMapping("/filter")
+    public ResponseEntity<List<ProductResponseDto>> filterTv(@RequestBody TvFilter tvFilter) {
         return ResponseEntity.ok(service.filterTv(tvFilter));
     }
 
     @PostMapping("/save")
-    public void saveTv(@RequestBody CreateTvRequest request) {
-        service.saveTv(request);
+    public ResponseEntity<Long> saveTv(@RequestBody CreateTvRequest request) {
+        return ResponseEntity.ok(service.saveTv(request));
     }
 }

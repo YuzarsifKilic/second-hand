@@ -18,10 +18,17 @@ public class CustomerService {
 
     private final CustomerRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final DealDeleteService dealService;
+    private final OrderDeleteService orderService;
 
-    public CustomerService(CustomerRepository repository, PasswordEncoder passwordEncoder) {
+    public CustomerService(CustomerRepository repository,
+                           PasswordEncoder passwordEncoder,
+                           DealDeleteService dealService,
+                           OrderDeleteService orderService) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+        this.dealService = dealService;
+        this.orderService = orderService;
     }
 
     @Transactional
@@ -35,6 +42,12 @@ public class CustomerService {
                 .lastName(request.lastName())
                 .build();
         repository.save(customer);
+    }
+
+    public void deleteCustomer(String id) {
+        orderService.deleteOrdersByUserId(id);
+        dealService.deleteDealsByUserId(id);
+        repository.deleteById(id);
     }
 
     public List<CustomerDto> getCustomers() {

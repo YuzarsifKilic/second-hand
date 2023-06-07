@@ -4,6 +4,7 @@ import com.example.secondhand.dto.model.PhoneDto;
 import com.example.secondhand.dto.filter.PhoneFilter;
 import com.example.secondhand.dto.model.PhoneResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
+import com.example.secondhand.dto.model.ProductResponseDto;
 import com.example.secondhand.dto.request.CreatePhoneRequest;
 import com.example.secondhand.service.PhoneService;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +32,13 @@ public class PhoneController {
         return ResponseEntity.ok(service.findPhoneById(id));
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<List<ProductDto>> phoneFilter(@RequestBody PhoneFilter filter) {
+    @PostMapping("/filter")
+    public ResponseEntity<List<ProductResponseDto>> phoneFilter(@RequestBody PhoneFilter filter) {
         return ResponseEntity.ok(service.phoneFilter(filter));
     }
 
     @PostMapping("/save")
-    public void savePhone(@RequestBody CreatePhoneRequest request) {
-        service.savePhone(request);
+    public ResponseEntity<Long> savePhone(@RequestBody CreatePhoneRequest request) {
+        return ResponseEntity.ok(service.savePhone(request));
     }
 }

@@ -72,4 +72,43 @@ public class ProductPhotoService {
                 .map(p -> p.getImageLink())
                 .collect(Collectors.toList());
     }
+
+    protected void deletePhotosByProductId(Long id) {
+        final List<ProductPhoto> photoList = repository.findAll()
+                .stream()
+                .filter(p -> p.getProduct().getId() == id)
+                .collect(Collectors.toList());
+
+        for (ProductPhoto productPhoto : photoList) {
+            repository.deleteById(productPhoto.getId());
+        }
+    }
+
+    private List<ProductPhoto> getAllPhotoUrl() {
+        return repository.findAll();
+    }
+
+    public List<String> findPhotoUrlByProductIdList(List<Long> idList) {
+        List<String> photoUrlList = new ArrayList<>();
+        List<ProductPhoto> productPhotoList = getAllPhotoUrl();
+        for (Long id : idList) {
+            for (ProductPhoto productPhoto : productPhotoList) {
+                if (productPhoto.getProduct().getId() == id)
+                    photoUrlList.add(productPhoto.getImageLink());
+                break;
+            }
+        }
+
+        return photoUrlList;
+    }
+
+    public String getFirstUrlOfProductPhoto(Long id) {
+        List<ProductPhoto> productPhotoList = repository.findAll();
+
+        productPhotoList.stream()
+                .filter(p -> p.getProduct().getId() == id)
+                .collect(Collectors.toList());
+
+        return productPhotoList.get(0).getImageLink();
+    }
 }

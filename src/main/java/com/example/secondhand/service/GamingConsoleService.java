@@ -4,6 +4,7 @@ import com.example.secondhand.dto.filter.GamingConsoleFilter;
 import com.example.secondhand.dto.model.GamingConsoleDto;
 import com.example.secondhand.dto.model.GamingConsoleResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
+import com.example.secondhand.dto.model.ProductResponseDto;
 import com.example.secondhand.dto.request.CreateGamingConsoleRequest;
 import com.example.secondhand.exception.GamingConsoleNotFoundException;
 import com.example.secondhand.model.Color;
@@ -22,17 +23,20 @@ public class GamingConsoleService {
 
     private final GamingConsoleRepository repository;
     private final ProductBrandService productBrandService;
+    private final ProductPhotoFindService productPhotoFindService;
     private final ProductService productService;
     private final SellerService sellerService;
     private final ColorService colorService;
 
     public GamingConsoleService(GamingConsoleRepository repository,
                                 ProductBrandService productBrandService,
+                                ProductPhotoFindService productPhotoFindService,
                                 ProductService productService,
                                 SellerService sellerService,
                                 ColorService colorService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.productPhotoFindService = productPhotoFindService;
         this.productService = productService;
         this.sellerService = sellerService;
         this.colorService = colorService;
@@ -53,7 +57,7 @@ public class GamingConsoleService {
     }
 
     @Transactional
-    public void saveGamingConsole(CreateGamingConsoleRequest request) {
+    public Long saveGamingConsole(CreateGamingConsoleRequest request) {
         ProductBrand productBrand = productBrandService.findProductBrand(request.productBrandId());
         Seller seller = sellerService.findSeller(request.sellerId());
         Color color = colorService.findColorById(request.colorId());
@@ -75,17 +79,22 @@ public class GamingConsoleService {
                 .color(color)
                 .build();
 
-        repository.save(gamingConsole);
+        final GamingConsole save = repository.save(gamingConsole);
+
+        return save.getId();
     }
 
-    public List<ProductDto> filter(GamingConsoleFilter filter) {
+    public List<ProductResponseDto> filter(GamingConsoleFilter filter) {
         List<GamingConsole> gamingConsoleList = repository.findAll();
         if (!filter.getBrandName().isEmpty())
             gamingConsoleList = brandFilter(gamingConsoleList, filter.getBrandName());
         if (filter.getColorId() != null)
             gamingConsoleList = colorFilter(gamingConsoleList, filter.getColorId());
         return gamingConsoleList.stream()
-                .map(ProductDto::convert)
+                .map(p -> {
+                    String imageUrl = productPhotoFindService.getFirstUrlOfProductPhoto(p.getId());
+                    return new ProductResponseDto(ProductDto.convert(p), imageUrl);
+                })
                 .collect(Collectors.toList());
     }
 

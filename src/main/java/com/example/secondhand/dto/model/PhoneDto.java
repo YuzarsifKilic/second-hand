@@ -9,6 +9,7 @@ public record PhoneDto(String brandModel,
                        int ramSize,
                        int camera,
                        int frontCamera,
+                       int storage,
                        ColorDto color) {
 
     public static PhoneDto convert(Phone from) {
@@ -20,6 +21,7 @@ public record PhoneDto(String brandModel,
                 from.getRamSize(),
                 from.getCamera(),
                 from.getFrontCamera(),
+                from.getStorage(),
                 ColorDto.convert(from.getColor()));
     }
 }

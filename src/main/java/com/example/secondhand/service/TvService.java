@@ -2,6 +2,7 @@ package com.example.secondhand.service;
 
 import com.example.secondhand.dto.model.ProductDto;
 import com.example.secondhand.dto.filter.TvFilter;
+import com.example.secondhand.dto.model.ProductResponseDto;
 import com.example.secondhand.dto.model.TvDto;
 import com.example.secondhand.dto.model.TvResponseDto;
 import com.example.secondhand.dto.request.CreateTvRequest;
@@ -21,15 +22,18 @@ public class TvService {
 
     private final TvRepository repository;
     private final ProductBrandService productBrandService;
+    private final ProductPhotoFindService productPhotoFindService;
     private final ProductService productService;
     private final SellerService sellerService;
 
     public TvService(TvRepository repository,
                      ProductBrandService productBrandService,
+                     ProductPhotoFindService productPhotoFindService,
                      ProductService productService,
                      SellerService sellerService) {
         this.repository = repository;
         this.productBrandService = productBrandService;
+        this.productPhotoFindService = productPhotoFindService;
         this.productService = productService;
         this.sellerService = sellerService;
     }
@@ -49,7 +53,7 @@ public class TvService {
     }
 
     @Transactional
-    public void saveTv(CreateTvRequest request) {
+    public Long saveTv(CreateTvRequest request) {
         ProductBrand productBrand = productBrandService.findProductBrand(request.productBrandId());
         Seller seller = sellerService.findSeller(request.sellerId());
 
@@ -72,10 +76,13 @@ public class TvService {
                 .quality(request.quality())
                 .build();
 
-        repository.save(tv);
+        final Tv save = repository.save(tv);
+
+        return save.getId();
+
     }
 
-    public List<ProductDto> filterTv(TvFilter filter) {
+    public List<ProductResponseDto> filterTv(TvFilter filter) {
         List<Tv> tvList = repository.findAll();
         if (!filter.getBrandName().isEmpty())
             tvList = brandFilter(tvList, filter.getBrandName());
@@ -83,7 +90,10 @@ public class TvService {
             tvList = screenTypeFilter(tvList, filter.getScreenType());
 
         return tvList.stream()
-                .map(ProductDto::convert)
+                .map(p -> {
+                    String imageUrl = productPhotoFindService.getFirstUrlOfProductPhoto(p.getId());
+                    return new ProductResponseDto(ProductDto.convert(p), imageUrl);
+                })
                 .collect(Collectors.toList());
     }
 

@@ -48,10 +48,18 @@ public class SecurityConfig {
                             "/api/v1/product/**",
                             "/api/v1/photo/**",
                             "/api/v1/pc/**",
+                            "/api/v1/phone/**",
+                            "/api/v1/tv/**",
+                            "/api/v1/gaming-console/**",
+                            "/api/v1/computer-accessories/**",
                             "/api/v1/deal/**",
-                            "/api/v1/user/**"
+                            "/api/v1/user/**",
+                            "/api/v1/cpu/**",
+                            "/api/v1/gpu/**",
+                            "/api/v1/color/**",
+                            "/api/v1/order/**"
                             ).permitAll();
-                    auth.requestMatchers("/api/v1/admin/**").hasAuthority("ADMIN");
+                    auth.requestMatchers("/api/v1/admin/**", "/api/v1/customer/getAll", "/api/v1/seller/getAll").hasAuthority("ADMIN");
                     auth.requestMatchers("/api/v1/seller/**").hasAuthority("SELLER");
                     auth.requestMatchers("/api/v1/customer/**").hasAuthority("CUSTOMER");
                     auth.anyRequest().authenticated();

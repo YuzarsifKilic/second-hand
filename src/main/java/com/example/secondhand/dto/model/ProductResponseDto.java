@@ -1,5 +1,13 @@
 package com.example.secondhand.dto.model;
 
-public record ProductResponseDto(ProductDto product,
-                                 String url) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class ProductResponseDto {
+
+    private ProductDto product;
+    private String productPhotoUrl;
+
 }

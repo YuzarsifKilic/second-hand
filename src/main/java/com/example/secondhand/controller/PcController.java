@@ -4,6 +4,7 @@ import com.example.secondhand.dto.model.PcDto;
 import com.example.secondhand.dto.filter.PcFilter;
 import com.example.secondhand.dto.model.PcResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
+import com.example.secondhand.dto.model.ProductResponseDto;
 import com.example.secondhand.dto.request.CreatePcRequest;
 import com.example.secondhand.service.PcService;
 import org.springframework.http.ResponseEntity;
@@ -31,15 +32,13 @@ public class PcController {
         return ResponseEntity.ok(service.findPcById(id));
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<List<ProductDto>> filterPc(@RequestBody PcFilter pcFilter) {
+    @PostMapping("/filter")
+    public ResponseEntity<List<ProductResponseDto>> filterPc(@RequestBody PcFilter pcFilter) {
         return ResponseEntity.ok(service.filterPc(pcFilter));
     }
 
     @PostMapping("/save")
-    public void savePc(@RequestBody CreatePcRequest request) {
-        service.savePc(request);
+    public ResponseEntity<Long> savePc(@RequestBody CreatePcRequest request) {
+        return ResponseEntity.ok(service.savePc(request));
     }
-
-
 }

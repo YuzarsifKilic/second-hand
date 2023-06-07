@@ -1,7 +1,7 @@
 package com.example.secondhand.service;
 
+import com.example.secondhand.dto.model.*;
 import com.example.secondhand.dto.request.CreateOrderRequest;
-import com.example.secondhand.dto.model.OrderDto;
 import com.example.secondhand.exception.OrderNotFoundException;
 import com.example.secondhand.model.Customer;
 import com.example.secondhand.model.Order;
@@ -18,11 +18,16 @@ public class OrderService {
 
     private final OrderRepository repository;
     private final CustomerService customerService;
+    private final ProductPhotoFindService productPhotoFindService;
     private final ProductService productService;
 
-    public OrderService(OrderRepository repository, CustomerService customerService, ProductService productService) {
+    public OrderService(OrderRepository repository,
+                        CustomerService customerService,
+                        ProductPhotoFindService productPhotoFindService,
+                        ProductService productService) {
         this.repository = repository;
         this.customerService = customerService;
+        this.productPhotoFindService = productPhotoFindService;
         this.productService = productService;
     }
 
@@ -36,19 +41,35 @@ public class OrderService {
                 .product(product)
                 .build();
         repository.save(order);
+
+        productService.sellTheProduct(request.productId());
     }
 
+    /*
     public OrderDto findOrderById(Long id) {
         return OrderDto.convert(repository.findById(id)
                 .orElseThrow(
                         () -> new OrderNotFoundException("Order didnt find by id : " + id)));
     }
+     */
 
-    public List<OrderDto> findOrdersByCustomerId(String customerId) {
+    public List<OrderResponseDto> findOrdersByCustomerId(String customerId) {
         return repository.findAll()
                 .stream()
                 .filter(o -> o.getCustomer().getId().equals(customerId))
-                .map(OrderDto::convert)
+                .map(o -> {
+                    String imageUrl = productPhotoFindService.getFirstUrlOfProductPhoto(o.getProduct().getId());
+                    Product product = productService.findProduct(o.getProduct().getId());
+                    return new OrderResponseDto(
+                            o.getId(),
+                            o.getProduct().getId(),
+                            o.getProduct().getShortDetails(),
+                            o.getProduct().getProductBrand().getBrandName(),
+                            o.getProduct().getPrice(),
+                            imageUrl);
+                })
                 .collect(Collectors.toList());
     }
+
+
 }

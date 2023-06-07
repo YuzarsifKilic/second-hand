@@ -18,10 +18,17 @@ public class SellerService {
 
     private final SellerRepository repository;
     private final PasswordEncoder passwordEncoder;
+    private final DealDeleteService dealService;
+    private final OrderDeleteService orderService;
 
-    public SellerService(SellerRepository repository, PasswordEncoder passwordEncoder) {
+    public SellerService(SellerRepository repository,
+                         PasswordEncoder passwordEncoder,
+                         DealDeleteService dealService,
+                         OrderDeleteService orderService) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+        this.dealService = dealService;
+        this.orderService = orderService;
     }
 
     @Transactional
@@ -44,6 +51,12 @@ public class SellerService {
                 .stream()
                 .map(SellerDto::convert)
                 .collect(Collectors.toList());
+    }
+
+    public void deleteSeller(String id) {
+        orderService.deleteOrdersByUserId(id);
+        dealService.deleteDealsByUserId(id);
+        repository.deleteById(id);
     }
 
     public SellerDto findSellerById(String id) {

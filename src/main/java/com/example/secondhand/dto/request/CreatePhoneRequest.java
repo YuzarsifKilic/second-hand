@@ -10,6 +10,7 @@ public record CreatePhoneRequest(String shortDetails,
                                  double screenSize,
                                  String screenType,
                                  int ramSize,
+                                 int storage,
                                  int camera,
                                  int frontCamera,
                                  int colorId) {

@@ -4,6 +4,7 @@ import com.example.secondhand.dto.filter.ComputerAccessoriesFilter;
 import com.example.secondhand.dto.model.ComputerAccessoriesDto;
 import com.example.secondhand.dto.model.ComputerAccessoriesResponseDto;
 import com.example.secondhand.dto.model.ProductDto;
+import com.example.secondhand.dto.model.ProductResponseDto;
 import com.example.secondhand.dto.request.CreateComputerAccessoriesRequest;
 import com.example.secondhand.service.ComputerAccessoriesService;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +32,13 @@ public class ComputerAccessoriesController {
         return ResponseEntity.ok(service.findComputerAccessoriesById(id));
     }
 
-    @GetMapping("/filter")
-    public ResponseEntity<List<ProductDto>> filter(@RequestBody ComputerAccessoriesFilter filter) {
+    @PostMapping("/filter")
+    public ResponseEntity<List<ProductResponseDto>> filter(@RequestBody ComputerAccessoriesFilter filter) {
         return ResponseEntity.ok(service.filter(filter));
     }
 
     @PostMapping("/save")
-    public void saveComputerAccessories(@RequestBody CreateComputerAccessoriesRequest request) {
-        service.saveComputerAccessories(request);
+    public ResponseEntity<Long> saveComputerAccessories(@RequestBody CreateComputerAccessoriesRequest request) {
+        return ResponseEntity.ok(service.saveComputerAccessories(request));
     }
 }
